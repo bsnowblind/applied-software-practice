@@ -4,13 +4,13 @@
 set cwd=%cd%
 
 :: Check for the existence of a 'Build' directory
-set dir="./Build"
+set dir="./build"
 if exist %dir% (rmdir /Q /S %dir%)
 mkdir %dir%
 
 echo Running the Squirrel file binding process
-call pleasebuild device/device.includes.nut > Build/compiled.device.nut
-call pleasebuild agent/agent.includes.nut > Build/compiled.agent.nut
+call pleasebuild device/device.includes.nut > build/compiled.device.nut
+call pleasebuild agent/agent.includes.nut > build/compiled.agent.nut
 
 echo Building the Squirrel project
 call impt build run
