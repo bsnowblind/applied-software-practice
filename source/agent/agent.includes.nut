@@ -14,5 +14,6 @@
 // @include "../PreddioImpLibrary/src/atcl/DavraServer/DavraServer.nut";
 
 // Application-specific Includes
+@include "mock_temperature_sensor.nut";
 // @include "DavraNode.nut";
 // @include "DavraInterface.nut";

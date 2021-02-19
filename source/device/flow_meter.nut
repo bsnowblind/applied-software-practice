@@ -79,7 +79,7 @@ class FlowMeter {
      *
      * @return  TRUE is the object is idle, otherwise FALSE
      */
-    function IsDispenseComplete_(){
+    function IsDispenseComplete_() {
         return is_idle_;
     }
 
