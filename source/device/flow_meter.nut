@@ -1,7 +1,9 @@
 /**
  * @file
- * @details     Provides monitoring functionality for the flow of liquid using a discrete signal 
- *              flow meter (pulse counting) 
+ * @details     Liquid dispense monitoring functionality for Project S.O.C.K
+ *
+ * @note        The liquid dispense monitoring functionality for the flow of liquid using   
+ *              a discrete signal flow meter (pulse counting) 
  */
 
 /**

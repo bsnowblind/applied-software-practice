@@ -12,12 +12,13 @@
 
 // Mock components for testing
 @include "mock_tap.nut";
-@include "mock_temperature_sensor.nut";
+// @include "mock_temperature_sensor.nut";
 
 // Application-specific Includes
-// @include "led_control.nut";
-// @include "pulse_counter.nut";
-// @include "flow_meter.nut";
-// @include "pressure_monitor.nut"
-@include "temperature_monitor.nut"
+@include "led_control.nut";
+@include "pulse_counter.nut";
+@include "flow_meter.nut";
+@include "pressure_monitor.nut";
+@include "temperature_monitor.nut";
+@include "door_switch.nut";
 @include "device.main.nut";
