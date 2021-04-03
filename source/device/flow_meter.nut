@@ -89,6 +89,7 @@ class FlowMeter {
      * Evaluates whether liquid is flowing and updates the associated flags
      */
     function CheckForLiquidFlowing_() {
+        // Reset the wakeup timer
         imp.wakeup(monitor_period_, CheckForLiquidFlowing_.bindenv(this));
         local pulse_count = flow_meter_.GetCountNoReset_();
 
@@ -111,6 +112,11 @@ class FlowMeter {
                 server.log("Dispense completed...");
                 local message = format("Last pulse count: %d...", last_pulse_count_);
                 server.log(message);
+
+                // Update the data model
+                datamodel.SetElement(
+                    data_model_config.elements.coffee_total_dispensed_volume,
+                    flow_meter_.GetCountNoReset_());
             }
 
             is_liquid_flowing_ = false;

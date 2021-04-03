@@ -1,0 +1,24 @@
+/**
+ * @file
+ * @details     Data model configuration content
+ */
+
+local data_model_config = {
+    "sync_period" : 0,          // REMOVE - required element
+    "elements" : {              // REMOVE - required element
+        "element1" : value
+    }
+}
+local data_model_size = data_model_config.elements.len();
+
+/*
+ * Usage:
+ *      Place a copy of this file in the "data_model" directory at the top-level 
+ *      of the src directory, create the directory if necessary, and remove the '.template' 
+ *      extension.
+ *
+ * Note:
+ *      Array size is inferred by the number of elements
+ *
+ * REMOVE COMMENT BLOCK AFTER COPY OPERATION
+ */

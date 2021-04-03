@@ -1,19 +1,16 @@
 /**
  * @file
- * @details     Agent include content for the Smart Kegerator project
- *
- * @copyright   2020 (c) Preddio Technologies, Inc.
+ * @details     Agent include content for Project S.O.C.K
  */
 
 // Configuration Includes
-// @include "agent.config.nut";
-
-// Preddio Imp-based Library Includes
-// @include "../DataModel/DataModel.config.nut";
-// @include "../PreddioImpLibrary/src/sfal/DataModel/DataModel.nut";
-// @include "../PreddioImpLibrary/src/atcl/DavraServer/DavraServer.nut";
+@include "agent.config.nut";
 
 // Application-specific Includes
+@include "../data_model/data_model.config.nut";
+@include "../data_model/data_model.nut";
 // @include "mock_temperature_sensor.nut";
-// @include "DavraNode.nut";
-// @include "DavraInterface.nut";
+@include "davra_server.nut";
+@include "davra_node.nut";
+@include "davra_interface.nut";
+@include "agent.main.nut";

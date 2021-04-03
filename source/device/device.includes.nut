@@ -6,15 +6,13 @@
 // Configuration Includes
 @include "device.config.nut";
 
-// // Preddio Imp-based Library Includes
-// @include "../DataModel/DataModel.config.nut";
-// @include "../PreddioImpLibrary/src/sfal/DataModel/DataModel.nut";
-
 // Mock components for testing
 @include "mock_tap.nut";
 // @include "mock_temperature_sensor.nut";
 
 // Application-specific Includes
+@include "../data_model/data_model.config.nut";
+@include "../data_model/data_model.nut";
 @include "led_control.nut";
 @include "pulse_counter.nut";
 @include "flow_meter.nut";

@@ -27,14 +27,16 @@ class DoorSwitch {
         signal_pin_ = hardware_pin;
 
         // Configure the hardware pin
-        signal_pin_.configure(DIGITAL_IN, DoorSwitchEventHandler.bindenv(this));
+        signal_pin_.configure(DIGITAL_IN_PULLUP, DoorSwitchEventHandler.bindenv(this));
     }
 
     /**
      * Handles a door position transition event
      */
     function DoorSwitchEventHandler() {
-        local element_name = "is_door_open";
-        local door_switch_state = door_switch_pin.read();
+        // Update the data model
+        data_model.SetElement(
+            data_model_elements.is_door_open,
+            signal_pin_.read());
     }
 }

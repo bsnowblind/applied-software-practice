@@ -1,6 +1,9 @@
 /**
  * @file
- * @details     Implementation of a pulse counter for a specified hardware pin 
+ * @details     Pulse counter functionality for Project S.O.C.K
+ *
+ * @note        The pulse counter functionality for the counting pulses propogated 
+ *              on a specified hardware pin using   
  */
 
 /**
