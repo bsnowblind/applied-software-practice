@@ -114,7 +114,7 @@ class FlowMeter {
                 server.log(message);
 
                 // Update the data model
-                datamodel.SetElement(
+                data_model.SetElement(
                     data_model_config.elements.coffee_total_dispensed_volume,
                     flow_meter_.GetCountNoReset_());
             }
