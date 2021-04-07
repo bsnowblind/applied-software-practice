@@ -6,10 +6,6 @@
 // Configuration Includes
 @include "device.config.nut";
 
-// Mock components for testing
-@include "mock_tap.nut";
-// @include "mock_temperature_sensor.nut";
-
 // Application-specific Includes
 @include "../data_model/data_model.config.nut";
 @include "../data_model/data_model.nut";

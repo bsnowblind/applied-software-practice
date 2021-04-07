@@ -6,7 +6,7 @@
 function Statemachine() {
     imp.wakeup(0.01, Statemachine);
 
-    ServiceDavraInterface();
+    // ServiceDavraInterface();
 }
 
 server.log("Starting agent-side process...");
@@ -51,6 +51,19 @@ function DataModelUpdated(dataPacket) {
     }
 
     switch (index) {
+        case data_model_elements.n2_output_pressure: {
+            value = (value == null) ? 0 : value;
+            value /= 65535.0;       // Get Voltage
+            value /= 100;           // Get Current in Amps
+            value *= 1000;          // Convert current to milliAmps
+            value -= 4;             // Adjust current to 4-20mA range
+            value *= 6.25;          // Convert current to pressure reading
+            local message = format("[SetElement] Index: %d    Value: %f", index, value);
+            server.log(message);
+            data_model.SetElement(index, value, false);
+            break;
+        }
+
         case data_model_elements.is_door_open: {
             value = (value == null) ? 0 : value;
             local message = format("[SetElement] Index: %d    Value: %d", index, value);
@@ -58,6 +71,23 @@ function DataModelUpdated(dataPacket) {
             data_model.SetElement(index, value, false);
             break;
         }
+
+        case data_model_config.elements.coffee_total_dispensed_volume: {
+            value = (value == null) ? 0 : value;
+            local message = format("[SetElement] Index: %d    Value: %d", index, value);
+            server.log(message);
+            data_model.SetElement(index, value, false);
+            break;
+        }
+
+        case data_model_elements.internal_temperature: {
+            value = (value == null) ? 0 : value;
+            local message = format("[SetElement] Index: %d    Value: %d", index, value);
+            server.log(message);
+            data_model.SetElement(index, value, false);
+            break;
+        }
+           
 
         // case DataModelKeys.volumeDispensed: {
         //     local url = "https://preddiodev.davra.com/api/v1/iotdata";

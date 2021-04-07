@@ -51,7 +51,7 @@ class TemperatureMonitor {
         // Update the data model
         data_model.SetElement(
             data_model_elements.internal_temperature,
-            GetReading_.bindenv(this));
+            GetReading_());
     }
 
     /**
@@ -60,6 +60,6 @@ class TemperatureMonitor {
      * @return  Raw analog input value
      */
     function GetReading_() {
-        return signal_pin_.pin.read()
+        return signal_pin_.read()
     }
 }

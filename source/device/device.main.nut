@@ -4,10 +4,10 @@
  */
 
 // Instantiate necessary objects
-// local pulse_counter = PulseCounter(hardware.pinXM);
-// local flow_meter = FlowMeter(pulse_counter, 0.1, 1);
-// local pressure_monitor = PressureMonitor(0.1, hardware.pinV);
-// local temperature_monitor = TemperatureMonitor(0.1, hardware.pinXD);
+local pulse_counter = PulseCounter(hardware.pinXM);
+local flow_meter = FlowMeter(pulse_counter, 0.1, 1);
+local pressure_monitor = PressureMonitor(10, hardware.pinV);
+local temperature_monitor = TemperatureMonitor(10, hardware.pinXD);
 local door_switch = DoorSwitch(hardware.pinXT);
 
 function SmartKegeratorStateMachine() {

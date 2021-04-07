@@ -52,7 +52,7 @@ class PressureMonitor {
         // Update the data model
         data_model.SetElement(
             data_model_elements.n2_output_pressure,
-            GetReading_.bindenv(this));
+            GetReading_());
     }
 
     /**
@@ -60,7 +60,7 @@ class PressureMonitor {
      *
      * @return  Raw analog input value
      */
-    function GetReading() {
-        return signal_pin_.pin.read()
+    function GetReading_() {
+        return signal_pin_.read()
     }
 }
