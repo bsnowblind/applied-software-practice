@@ -12,7 +12,6 @@ class DavraNode {
      */
     static davra_if = DavraServer(
         "https://preddiodev.davra.com/microservices/services/device/iotdata",
-        // "nWNqTti4nG4JRnFWiQzEQKj9cUetwlqAeP2lNwco5zNGqbxF"
         "IfXOx0S7rHetr2aZp4Fp7eRtdCAhRAom4VrCcgCB2rzG9QnQ"
     );
 
@@ -65,10 +64,6 @@ class DavraNode {
         local value_change = false;
 
         if (sync_count_ == 0) {
-            server.log("Entering ServiceNode()...");
-            local message = format("[ServiceNode] Index:%d    Value:%d", data_model_elements[element_name_], (new_value == null) ? 0 : new_value);
-            server.log(message);
-
             // Evaluate last value against new value to determine if the value changed since
             // the last evaluation
             if (last_value != new_value) {

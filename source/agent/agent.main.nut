@@ -6,7 +6,7 @@
 function Statemachine() {
     imp.wakeup(0.01, Statemachine);
 
-    // ServiceDavraInterface();
+    ServiceDavraInterface();
 }
 
 server.log("Starting agent-side process...");
@@ -52,12 +52,29 @@ function DataModelUpdated(dataPacket) {
 
     switch (index) {
         case data_model_elements.n2_output_pressure: {
+            
+            // Resolve a NULL value
             value = (value == null) ? 0 : value;
-            value /= 65535.0;       // Get Voltage
-            value /= 100;           // Get Current in Amps
-            value *= 1000;          // Convert current to milliAmps
-            value -= 4;             // Adjust current to 4-20mA range
-            value *= 6.25;          // Convert current to pressure reading
+
+            /*
+             * Convert the following:
+             *  - value to voltage
+             *  - voltage to amps
+             *  - amp to milliamps
+             *  
+             * Set the floor of the current to 4 milliamps
+             * Covert the current to a pressure reading in pounds per square inch
+             */
+            local adc_resolution_bits = 16;
+            local shunt_resistance = 100;
+            local pressure_per_current = 6.25;
+            local milliamps_per_amp = 1000;
+            local current_offset = 4;
+            value /= math.pow(2, adc_resolution_bits);
+            value /= shunt_resistance;
+            value *= milliamps_per_amp;
+            value -= current_offset;
+            value *= pressure_per_current;
             local message = format("[SetElement] Index: %d    Value: %f", index, value);
             server.log(message);
             data_model.SetElement(index, value, false);
