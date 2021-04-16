@@ -4,7 +4,7 @@
  */
 
 // Instantiate necessary objects
-local pulse_counter = PulseCounter(hardware.pinXM);
+local pulse_counter = PulseCounter(hardware.pinXH);
 local flow_meter = FlowMeter(pulse_counter, 0.1, 1);
 local pressure_monitor = PressureMonitor(10, hardware.pinV);
 local temperature_monitor = TemperatureMonitor(10, hardware.pinXD);
