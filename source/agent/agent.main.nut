@@ -10,39 +10,24 @@ function Statemachine() {
 }
 
 server.log("Starting agent-side process...");
-// totalDispensedCount <- 0;
-// persistentDataTable <- server.load();
-// if (persistentDataTable.len() != 0) {
-//     totalDispensedCount = persistentDataTable.rawget("totalDispensedCount");
-// } else {
-//     persistentDataTable.rawset("totalDispensedCount", totalDispensedCount);
-// }
-// local message = format("Total dispensed count initialized to %d...", totalDispensedCount);
-// server.log(message);
-// deviceDataModel <- DataModelSentry(DataModelKeys.numberOfKeys, 1.0);
 
 imp.onidle(function() {
     Statemachine();
 });
+
+function CalculateVoltageFromAdcCounts(counts) {
+    local adc_full_span = 3.3
+    local adc_resolution_bits = 16;
+    local adc_resolution = adc_full_span / math.pow(2, adc_resolution_bits);
+
+    return (adc_resolution * counts);
+}
 
 function DataModelUpdated(dataPacket) {
 
     local index = dataPacket.rawget("index");
     local value = dataPacket.rawget("value");
 
-    // switch (index) {
-    //     case DataModelKeys.volumeDispensed: {
-    //         value = (value == null) ? 0 : value;
-    //         local message = format("Element %d has been updated to %d...", index, value);
-    //         server.log(message);
-    //         deviceDataModel.SetElement(index, value, false);
-    //         break;
-    //     }
-
-    //     default: {
-    //         server.log("DataModelUpdated() received unexpected index...");
-    //     }
-    // }
     local retVal = false;
     local updatedData = {};
 
@@ -56,25 +41,16 @@ function DataModelUpdated(dataPacket) {
             // Resolve a NULL value
             value = (value == null) ? 0 : value;
 
-            /*
-             * Convert the following:
-             *  - value to voltage
-             *  - voltage to amps
-             *  - amp to milliamps
-             *  
-             * Set the floor of the current to 4 milliamps
-             * Covert the current to a pressure reading in pounds per square inch
-             */
-            local adc_resolution_bits = 16;
-            local shunt_resistance = 100;
-            local pressure_per_current = 6.25;
+            // ADD COMMENTS
+            local shunt_resistance = 330;
             local milliamps_per_amp = 1000;
             local current_offset = 4;
-            value /= math.pow(2, adc_resolution_bits);
+            local pressure_per_current = 6.25;
+            value = CalculateVoltageFromAdcCounts(value);
             value /= shunt_resistance;
-            value *= milliamps_per_amp;
-            value -= current_offset;
-            value *= pressure_per_current;
+            value *= 1000;
+            value -= 4;
+            value *= 6.25;
             local message = format("[SetElement] Index: %d    Value: %f", index, value);
             server.log(message);
             data_model.SetElement(index, value, false);
@@ -82,6 +58,8 @@ function DataModelUpdated(dataPacket) {
         }
 
         case data_model_elements.is_door_open: {
+
+            // Resolve a NULL value
             value = (value == null) ? 0 : value;
             local message = format("[SetElement] Index: %d    Value: %d", index, value);
             server.log(message);
@@ -90,6 +68,8 @@ function DataModelUpdated(dataPacket) {
         }
 
         case data_model_config.elements.coffee_total_dispensed_volume: {
+            
+            // Resolve a NULL value
             value = (value == null) ? 0 : value;
             local message = format("[SetElement] Index: %d    Value: %d", index, value);
             server.log(message);
@@ -98,49 +78,23 @@ function DataModelUpdated(dataPacket) {
         }
 
         case data_model_elements.internal_temperature: {
+            
+            // Resolve a NULL value
             value = (value == null) ? 0 : value;
-            local message = format("[SetElement] Index: %d    Value: %d", index, value);
+
+            // ADD COMMENTS
+            local divider_resistance = 5360;
+            local divider_voltage = 12;
+            local ohms_per_celsius = 3.9;
+            local zero_celsius_resistance = 1000;
+            value = CalculateVoltageFromAdcCounts(value);
+            value = (divider_resistance * value) / (divider_voltage - value);
+            value = (value - 1000) / ohms_per_celsius;
+            local message = format("[SetElement] Index: %d    Value: %f", index, value);
             server.log(message);
             data_model.SetElement(index, value, false);
             break;
         }
-           
-
-        // case DataModelKeys.volumeDispensed: {
-        //     local url = "https://preddiodev.davra.com/api/v1/iotdata";
-        //     // local url = "https://preddiodev.davra.com/user";
-        //     local extraHeaders = {};
-        //     extraHeaders.rawset("Authorization", "Bearer NhkLGQat4bQ1U5mtQteNt57xF19XFLS2dR8JL6EqnuBSDHFQ");
-        //     extraHeaders.rawset("content-type", "application/json");
-
-        //     // local value = dataModel.GetElement(index);
-            
-        //     if (value == null) break;
-
-        //     totalDispensedCount += value;
-        //     persistentDataTable.rawset("totalDispensedCount", totalDispensedCount);
-        //     server.save(persistentDataTable);
-            
-        //     local message = format("Element %d has been updated to %d...", index, totalDispensedCount);
-        //     server.log(message);
-        //     deviceDataModel.SetElement(index, value, false);
-
-
-        //     local body = http.jsonencode({
-        //         "UUID": "988e0513-9e89-4568-8290-877a140b2278",
-        //         "msg_type": "datum",
-        //         "name": "metric.station.1.flow",
-        //         "value": (totalDispensedCount.tofloat() / 4021.0)});
-
-        //     local request = http.put(url, extraHeaders, body);
-
-        //     local response = request.sendsync();
-        //     if (response.statuscode == 200) {
-        //         server.log("Sent message to Davra successfully...")
-        //         retVal = true;
-        //     }
-        //     break;
-        // }
 
         default: {
             throw "DataModelSync() received an unexpected index..."
