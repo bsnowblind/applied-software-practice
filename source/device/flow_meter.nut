@@ -109,14 +109,16 @@ class FlowMeter {
 
         if (idle_count_remaining_ == 0) {
             if (!is_idle_) {
+                local count_per_liter = 1696.0;
+                local last_dispensed_volume = last_pulse_count_ / count_per_liter;
                 server.log("Dispense completed...");
-                local message = format("Last pulse count: %d...", last_pulse_count_);
+                local message = format("Last dispensed volume: %d...", last_dispensed_volume);
                 server.log(message);
 
                 // Update the data model
                 data_model.SetElement(
-                    data_model_config.elements.coffee_total_dispensed_volume,
-                    flow_meter_.GetCountNoReset_());
+                    data_model_config.elements.coffee_last_dispensed_volume,
+                    last_dispensed_volume);
             }
 
             is_liquid_flowing_ = false;

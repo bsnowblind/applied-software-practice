@@ -10,6 +10,15 @@ function Statemachine() {
 }
 
 server.log("Starting agent-side process...");
+totalDispensedVolume <- 0;
+persistentDataTable <- server.load();
+if (persistentDataTable.len() != 0) {
+    totalDispensedVolume = persistentDataTable.rawget("totalDispensedVolume");
+} else {
+    persistentDataTable.rawset("totalDispensedVolume", totalDispensedVolume);
+}
+local message = format("Total dispensed volume initialized to %d...", totalDispensedVolume);
+server.log(message);
 
 imp.onidle(function() {
     Statemachine();
@@ -67,12 +76,15 @@ function DataModelUpdated(dataPacket) {
             break;
         }
 
-        case data_model_config.elements.coffee_total_dispensed_volume: {
+        case data_model_config.elements.coffee_last_dispensed_volume: {
             
             // Resolve a NULL value
             value = (value == null) ? 0 : value;
             local message = format("[SetElement] Index: %d    Value: %d", index, value);
             server.log(message);
+            totalDispensedVolume += value;
+            persistentDataTable.rawset("totalDispensedVolume", totalDispensedVolume);
+            server.save(persistentDataTable);
             data_model.SetElement(index, value, false);
             break;
         }

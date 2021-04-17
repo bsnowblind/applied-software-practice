@@ -7,15 +7,15 @@ local data_model_config = {
     "sync_period" : 1, 
     "elements": {
         "n2_output_pressure": 0,
-        "coffee_total_dispensed_volume": 1,
+        "coffee_last_dispensed_volume": 1,
         "is_door_open": 2,
         "internal_temperature": 3
     },
     "metrics" : {
         "n2_output_pressure": "metric.tank.1.output.pressure",              // Implemented
-        "coffee_total_dispensed_volume": "metric.station.1.flow.total",     // Verified via Postman
+        "coffee_last_dispensed_volume": "metric.station.1.flow.total",      // Verified via Postman
         "is_door_open": "event.contact",                                    // Unverfied
-        "internal_temperature": "metric.ambient.temperature"                // Verified via Postman
+        "internal_temperature": "metric.ambient.temperature"                // Implemented
     }
 };
 

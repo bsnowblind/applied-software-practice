@@ -8,8 +8,10 @@ local node_sync_period = 10;
 
 local nitrogen_pressure_node = DavraNode("n2_output_pressure", update_period, node_sync_period);
 local internal_temperature_node = DavraNode("internal_temperature", update_period, node_sync_period);
+local coffee_last_dispensed_volume = DavraNode("coffee_last_dispensed_volume", update_period, node_sync_period);
 
 function ServiceDavraInterface() {
     nitrogen_pressure_node.ServiceNode();
     internal_temperature_node.ServiceNode();
+    coffee_last_dispensed_volume.ServiceNode();
 }
