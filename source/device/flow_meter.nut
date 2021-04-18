@@ -109,7 +109,7 @@ class FlowMeter {
 
         if (idle_count_remaining_ == 0) {
             if (!is_idle_) {
-                local count_per_liter = 1696.0;
+                local count_per_liter = 2956.0;
                 local last_dispensed_volume = last_pulse_count_ / count_per_liter;
                 server.log("Dispense completed...");
                 local message = format("Last dispensed volume: %d...", last_dispensed_volume);
